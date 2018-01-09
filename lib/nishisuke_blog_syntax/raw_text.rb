@@ -7,9 +7,9 @@ module NishisukeBlogSyntax
     end
 
     def to_html
-      self.class.html_formatters.inject(text.gsub(/\R/, '')) {
-        |html, formatter| formatter.format(html)
-      }
+      self.class.html_formatters.inject(text.gsub(/\R/, "\n")) do |html, formatter|
+       formatter.format(html)
+      end
     end
 
     private
