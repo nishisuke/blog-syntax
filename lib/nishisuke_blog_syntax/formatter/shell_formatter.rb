@@ -20,7 +20,7 @@ module NishisukeBlogSyntax
             wrapped_line(l)
           end.join('<br>')
 
-          html = wrapped_content(content_str, file_name)
+          html = wrapped_content(content_str)
 
           txt.gsub(REGEXP, html)
         end
@@ -39,13 +39,13 @@ module NishisukeBlogSyntax
 
         def wrapped_content(content)
           html = <<~HTML
-      <div class="shell mdc-elevation--z2">
-      <pre class="shell__container">
-      <span class="shell__std">
-          #{content}
-      </span>
-      </pre>
-      </div>
+            <div class="shell mdc-elevation--z2">
+            <pre class="shell__container">
+            <span class="shell__std">
+            #{content}
+            </span>
+            </pre>
+            </div>
           HTML
           html.gsub("\n", '')
         end

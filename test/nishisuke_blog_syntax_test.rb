@@ -14,4 +14,14 @@ class NishisukeBlogSyntaxTest < Minitest::Test
       oshi.
     EXPECTED
   end
+
+  def test_it_converts_shell
+    txt = %Q(hoge\nSHELL```\nin: echo zukudan\nout: zukudan\nSHELL```\noshi.\n)
+    html = NishisukeBlogSyntax.convert_html(txt)
+    assert_equal <<~EXPECTED, html
+      hoge
+      <div class="shell mdc-elevation--z2"><pre class="shell__container"><span class="shell__std"><kbd class="shell__input">echo zukudan</kbd><br><samp class="shell__output">zukudan</samp></span></pre></div>
+      oshi.
+    EXPECTED
+  end
 end
