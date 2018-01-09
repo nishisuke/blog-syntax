@@ -15,9 +15,12 @@ module NishisukeBlogSyntax
     private
 
     def self.html_formatters
+      # order is important!
+      # Each formatter should be commutative.
+      # But be careful order for the future.
       @@formatters ||= [
-        Formatter::CodeFormatter,
         Formatter::ShellFormatter,
+        Formatter::CodeFormatter,
       ]
     end
 
