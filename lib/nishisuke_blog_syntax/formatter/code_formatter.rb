@@ -30,14 +30,14 @@ module NishisukeBlogSyntax
           has_file_name = !file_name.gsub(/\s/, '').empty?
 
           html = <<~HTML
-        <div class="shell mdc-elevation--z2">
-          #{%Q(<span class="shell__file">#{file_name}</span>) if has_file_name}
-        <pre class="shell__container">
-        <code class="shell__code">
-          #{content}
-        </code>
-        </pre>
-        </div>
+            <div class="shell mdc-elevation--z2">
+            #{%Q(<span class="shell__file">#{file_name}</span>) if has_file_name}
+            <pre class="shell__container">
+            <code class="shell__code">
+            #{content}
+            </code>
+            </pre>
+            </div>
           HTML
 
           html.gsub("\n", '')
