@@ -17,6 +17,7 @@ module NishisukeBlogSyntax
     def self.html_formatters
       @@formatters ||= [
         Formatter::CodeFormatter,
+        Formatter::ShellFormatter,
       ]
     end
 
