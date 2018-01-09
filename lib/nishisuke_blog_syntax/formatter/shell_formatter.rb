@@ -1,4 +1,6 @@
 require 'nishisuke_blog_syntax/formatter'
+require 'erb'
+include ERB::Util
 
 module NishisukeBlogSyntax
   module Formatter
@@ -29,11 +31,11 @@ module NishisukeBlogSyntax
 
         def wrapped_line(txt)
           if m = txt.match(INPUT_REGEXP)
-            %Q(<kbd class="shell__input">#{m.post_match}</kbd>)
+            %Q(<kbd class="shell__input">#{h(m.post_match)}</kbd>)
           elsif m = txt.match(OUTPUT_REGEXP)
-            %Q(<samp class="shell__output">#{m.post_match}</samp>)
+            %Q(<samp class="shell__output">#{h(m.post_match)}</samp>)
           else
-            txt
+            h(txt)
           end
         end
 

@@ -1,4 +1,6 @@
 require 'nishisuke_blog_syntax/formatter'
+require 'erb'
+include ERB::Util
 
 module NishisukeBlogSyntax
   module Formatter
@@ -23,7 +25,7 @@ module NishisukeBlogSyntax
         private
 
         def wrapped_line(txt)
-          %Q(<span class="shell__code-line">#{txt}</span>)
+          %Q(<span class="shell__code-line">#{h(txt)}</span>)
         end
 
         def wrapped_content(content, file_name)
