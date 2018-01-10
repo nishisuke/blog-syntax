@@ -1,4 +1,5 @@
-require 'nishisuke_blog_syntax/formatter'
+require 'nishisuke_blog_syntax/formatter/code_formatter'
+require 'nishisuke_blog_syntax/formatter/shell_formatter'
 
 module NishisukeBlogSyntax
   class RawText
@@ -19,8 +20,8 @@ module NishisukeBlogSyntax
       # Each formatter should be commutative.
       # But be careful order for the future.
       @@formatters ||= [
-        Formatter::ShellFormatter,
-        Formatter::CodeFormatter,
+        Formatter::ShellFormatter.new,
+        Formatter::CodeFormatter.new,
       ]
     end
 

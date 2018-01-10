@@ -4,53 +4,46 @@ include ERB::Util
 
 module NishisukeBlogSyntax
   module Formatter
-    module ShellFormatter
-      REGEXP = /^SHELL```(.*)SHELL```$/m
+    class ShellFormatter < FormatterBase
+      SUBSTITUTE_REGEXP = /^SHELL```(.*?)SHELL```$/m
+      PARSE_REGEXP = /^SHELL```(.*)SHELL```$/m
       INPUT_REGEXP = /\Ain: /
       OUTPUT_REGEXP = /\Aout: /
 
-      class << self
-        def format(txt)
-          m = txt.match(REGEXP)
-          return txt if m.nil?
+      private
 
-          contents = m[1].split("\n")
+      def regexp
+        SUBSTITUTE_REGEXP
+      end
 
-          file_name = contents.shift
+      def substitute(matched)
+        content_str = matched.match(PARSE_REGEXP)[1]
+        contents = content_str.split("\n").reject(&:empty?)
+        contents.map! { |l| wrapped_line(l) }
+        wrapped_content(contents.join('<br>'))
+      end
 
-          content_str = contents.reject(&:empty?).map do |l|
-            wrapped_line(l)
-          end.join('<br>')
-
-          html = wrapped_content(content_str)
-
-          txt.gsub(REGEXP, html)
+      def wrapped_line(txt)
+        if m = txt.match(INPUT_REGEXP)
+          %Q(<kbd class="shell__input">#{h(m.post_match)}</kbd>)
+        elsif m = txt.match(OUTPUT_REGEXP)
+          %Q(<samp class="shell__output">#{h(m.post_match)}</samp>)
+        else
+          h(txt)
         end
+      end
 
-        private
-
-        def wrapped_line(txt)
-          if m = txt.match(INPUT_REGEXP)
-            %Q(<kbd class="shell__input">#{h(m.post_match)}</kbd>)
-          elsif m = txt.match(OUTPUT_REGEXP)
-            %Q(<samp class="shell__output">#{h(m.post_match)}</samp>)
-          else
-            h(txt)
-          end
-        end
-
-        def wrapped_content(content)
-          html = <<~HTML
-            <div class="shell mdc-elevation--z2">
-            <pre class="shell__container">
-            <span class="shell__std">
-            #{content}
-            </span>
-            </pre>
-            </div>
-          HTML
-          html.gsub("\n", '')
-        end
+      def wrapped_content(content)
+        html = <<~HTML
+          <div class="shell mdc-elevation--z2">
+          <pre class="shell__container">
+          <span class="shell__std">
+          #{content}
+          </span>
+          </pre>
+          </div>
+        HTML
+        html.gsub("\n", '')
       end
     end
   end

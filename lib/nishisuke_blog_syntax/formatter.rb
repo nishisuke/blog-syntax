@@ -1,7 +1,19 @@
-require 'nishisuke_blog_syntax/formatter/code_formatter'
-require 'nishisuke_blog_syntax/formatter/shell_formatter'
-
-module BlogFormatParser
+module NishisukeBlogSyntax
   module Formatter
+    class FormatterBase
+      def format(txt)
+        txt.gsub(regexp) { |matched| substitute(matched) }
+      end
+
+      private
+
+      def regexp
+        raise NotImplementedError
+      end
+
+      def substitute
+        raise NotImplementedError
+      end
+    end
   end
 end

@@ -4,46 +4,43 @@ include ERB::Util
 
 module NishisukeBlogSyntax
   module Formatter
-    module CodeFormatter
-      REGEXP = /^SRC```(.*)SRC```$/m
+    class CodeFormatter < FormatterBase
+      SUBSTITUTE_REGEXP = /^SRC```(.*?)SRC```$/m
+      PARSE_REGEXP = /^SRC```(.*)SRC```$/m
 
-      class << self
-        def format(txt)
-          m = txt.match(REGEXP)
-          return txt if m.nil?
+      private
 
-          contents = m[1].split("\n")
+      def regexp
+        SUBSTITUTE_REGEXP
+      end
 
-          file_name = contents.shift
+      def substitute(matched)
+        content_str = matched.match(PARSE_REGEXP)[1]
+        contents = content_str.split("\n")
+        file_name = contents.shift
+        contents.map! { |l| wrapped_line(l) }
+        wrapped_content(contents.join('<br>'), file_name)
+      end
 
-          content_str = contents.map { |l| wrapped_line(l) }.join('<br>')
-          html = wrapped_content(content_str, file_name)
+      def wrapped_line(txt)
+        %Q(<span class="shell__code-line">#{h(txt)}</span>)
+      end
 
-          txt.gsub(REGEXP, html)
-        end
+      def wrapped_content(content, file_name)
+        has_file_name = !file_name.gsub(/\s/, '').empty?
 
-        private
+        html = <<~HTML
+          <div class="shell mdc-elevation--z2">
+          #{%Q(<span class="shell__file">#{file_name}</span>) if has_file_name}
+          <pre class="shell__container">
+          <code class="shell__code">
+          #{content}
+          </code>
+          </pre>
+          </div>
+        HTML
 
-        def wrapped_line(txt)
-          %Q(<span class="shell__code-line">#{h(txt)}</span>)
-        end
-
-        def wrapped_content(content, file_name)
-          has_file_name = !file_name.gsub(/\s/, '').empty?
-
-          html = <<~HTML
-            <div class="shell mdc-elevation--z2">
-            #{%Q(<span class="shell__file">#{file_name}</span>) if has_file_name}
-            <pre class="shell__container">
-            <code class="shell__code">
-            #{content}
-            </code>
-            </pre>
-            </div>
-          HTML
-
-          html.gsub("\n", '')
-        end
+        html.gsub("\n", '')
       end
     end
   end
