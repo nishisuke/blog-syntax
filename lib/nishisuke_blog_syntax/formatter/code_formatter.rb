@@ -29,7 +29,7 @@ module NishisukeBlogSyntax
       def wrapped_content(content, file_name)
         has_file_name = !file_name.gsub(/\s/, '').empty?
 
-        html = <<~HTML
+        html = <<~HTML.gsub("\n", '')
           <div class="shell mdc-elevation--z2">
           #{%Q(<span class="shell__file">#{file_name}</span>) if has_file_name}
           <pre class="shell__container">
@@ -39,8 +39,6 @@ module NishisukeBlogSyntax
           </pre>
           </div>
         HTML
-
-        html.gsub("\n", '')
       end
     end
   end

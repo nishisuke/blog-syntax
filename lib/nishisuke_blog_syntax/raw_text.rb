@@ -8,8 +8,8 @@ module NishisukeBlogSyntax
     end
 
     def to_html
-      self.class.html_formatters.inject(text) do |html, formatter|
-        formatter.format(html)
+      self.class.html_formatters.inject(text) do |html, f|
+        f.format(html)
       end
     end
 
