@@ -18,7 +18,8 @@ module NishisukeBlogSyntax
 
       def substitute(matched)
         content_str = matched.match(PARSE_REGEXP)[1]
-        contents = content_str.split("\n").reject(&:empty?)
+        contents = content_str.split("\n")
+        contents.shift # drop first line, this is SRC```xxxxx <-
         contents.map! { |l| wrapped_line(l) }
         wrapped_content(contents.join('<br>'))
       end
@@ -29,7 +30,7 @@ module NishisukeBlogSyntax
         elsif m = txt.match(OUTPUT_REGEXP)
           %Q(<samp class="shell__output">#{h(m.post_match)}</samp>)
         else
-          h(txt)
+          '' # this means <br><br> finaly.
         end
       end
 
