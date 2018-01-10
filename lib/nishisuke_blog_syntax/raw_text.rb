@@ -4,12 +4,12 @@ require 'nishisuke_blog_syntax/formatter/shell_formatter'
 module NishisukeBlogSyntax
   class RawText
     def initialize(text)
-      @text = text
+      @text = text.gsub(/\R/, "\n")
     end
 
     def to_html
-      self.class.html_formatters.inject(text.gsub(/\R/, "\n")) do |html, formatter|
-       formatter.format(html)
+      self.class.html_formatters.inject(text) do |html, formatter|
+        formatter.format(html)
       end
     end
 
