@@ -24,4 +24,14 @@ class NishisukeBlogSyntaxTest < Minitest::Test
       oshi.
     EXPECTED
   end
+
+  def test_it_converts_paragraph
+    txt = %Q(hogehoge\n>>>hoaaa\nfasdk\nfasdk\n<<<\nhoge\n)
+    html = NishisukeBlogSyntax.convert_html(txt)
+    assert_equal <<~EXPECTED, html
+      hogehoge
+      <p>hoaaa<br>fasdk<br>fasdk</p>
+      hoge
+    EXPECTED
+  end
 end
