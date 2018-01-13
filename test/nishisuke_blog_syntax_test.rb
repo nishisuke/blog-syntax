@@ -34,4 +34,16 @@ class NishisukeBlogSyntaxTest < Minitest::Test
       hoge
     EXPECTED
   end
+
+  def test_it_converts_sub_headline
+    txt = %Q(hoge\n## zukudan\nhogehoge\n>>>hoaaa\nfasdk\nfasdk\n<<<\nhoge\n)
+    html = NishisukeBlogSyntax.convert_html(txt)
+    assert_equal <<~EXPECTED, html
+      hoge
+      <h2>zukudan</h2>
+      hogehoge
+      <p>hoaaa<br>fasdk<br>fasdk</p>
+      hoge
+    EXPECTED
+  end
 end
