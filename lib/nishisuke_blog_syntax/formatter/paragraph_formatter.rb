@@ -14,7 +14,8 @@ module NishisukeBlogSyntax
 
       def substitute(matched)
         content_str = matched.match(PARSE_REGEXP)[1]
-        "<p>#{content_str.split("\n").join('<br>')}</p>"
+        contents = content_str.split("\n").reject(&:empty?)
+        "<p>#{contents.join('<br>')}</p>"
       end
     end
   end
