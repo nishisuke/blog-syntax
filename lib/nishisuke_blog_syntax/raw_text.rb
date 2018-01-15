@@ -2,6 +2,8 @@ require 'nishisuke_blog_syntax/formatter/code_formatter'
 require 'nishisuke_blog_syntax/formatter/shell_formatter'
 require 'nishisuke_blog_syntax/formatter/paragraph_formatter'
 require 'nishisuke_blog_syntax/formatter/sub_headline_formatter'
+require 'nishisuke_blog_syntax/formatter/head_three_formatter'
+require 'nishisuke_blog_syntax/formatter/list_formatter'
 
 module NishisukeBlogSyntax
   class RawText
@@ -26,6 +28,8 @@ module NishisukeBlogSyntax
         Formatter::CodeFormatter.new,
         Formatter::ParagraphFormatter.new,
         Formatter::SubHeadlineFormatter.new,
+        Formatter::HeadThreeFormatter.new,
+        Formatter::ListFormatter.new,
       ]
     end
 
