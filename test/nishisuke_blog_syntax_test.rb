@@ -26,41 +26,39 @@ class NishisukeBlogSyntaxTest < Minitest::Test
   end
 
   def test_it_converts_paragraph
-    txt = %Q(hogehoge\n>>>hoaaa\nfasdk\nfasdk\n<<<\nhoge\n)
+    txt = %Q(hogehoge\n>>>hoaaa\nfas   dk\nfasdk\n<<<\nhoge\n)
     html = NishisukeBlogSyntax.convert_html(txt)
     assert_equal <<~EXPECTED, html
       hogehoge
-      <p>hoaaa<br>fasdk<br>fasdk</p>
+      <p>hoaaa fas dk fasdk</p>
       hoge
     EXPECTED
   end
 
   def test_it_converts_sub_headline
-    txt = %Q(hoge\n## zukudan\nhogehoge\n>>>hoaaa\nfasdk\nfasdk\n<<<\nhoge\n)
+    txt = %Q(hoge\n## zukudan\nhogehoge\nhoge\n)
     html = NishisukeBlogSyntax.convert_html(txt)
     assert_equal <<~EXPECTED, html
       hoge
       <h2>zukudan</h2>
       hogehoge
-      <p>hoaaa<br>fasdk<br>fasdk</p>
       hoge
     EXPECTED
   end
 
   def test_it_converts_head_three
-    txt = %Q(hoge\n### zukudan\nhogehoge\n>>>hoaaa\nfasdk\nfasdk\n<<<\nhoge\n)
+    txt = %Q(hoge\n### zukudan\nhogehoge\nhoge\n)
     html = NishisukeBlogSyntax.convert_html(txt)
     assert_equal <<~EXPECTED, html
       hoge
       <h3>zukudan</h3>
       hogehoge
-      <p>hoaaa<br>fasdk<br>fasdk</p>
       hoge
     EXPECTED
   end
 
   def test_it_converts_list
-    txt = %Q(hoge<ul>\n- hoge\n- gae\n</ul>\n### zukudan\nhogehoge\n>>>hoaaa\nfasdk\nfasdk\n<<<\nhoge\n)
+    txt = %Q(hoge<ul>\n- hoge\n- gae\n</ul>\n### zukudan\nhogehoge\nhoge\n)
     html = NishisukeBlogSyntax.convert_html(txt)
     assert_equal <<~EXPECTED, html
       hoge<ul>
@@ -69,7 +67,6 @@ class NishisukeBlogSyntaxTest < Minitest::Test
       </ul>
       <h3>zukudan</h3>
       hogehoge
-      <p>hoaaa<br>fasdk<br>fasdk</p>
       hoge
     EXPECTED
   end

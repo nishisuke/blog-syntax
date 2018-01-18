@@ -14,8 +14,8 @@ module NishisukeBlogSyntax
 
       def substitute(matched)
         content_str = matched.match(PARSE_REGEXP)[1]
-        contents = content_str.split("\n").reject(&:empty?)
-        "<p>#{contents.join('<br>')}</p>"
+        content_str.gsub!(/\R|\s+/, ' ')
+        "<p>#{content_str.chop}</p>"
       end
     end
   end
