@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "nishisuke_blog_syntax/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = 'nishisuke-blog-syntax'
+  spec.name          = 'nishisuke_blog_syntax'
   spec.version       = NishisukeBlogSyntax::VERSION
   spec.authors       = ["nishisuke"]
   spec.email         = ["nishisuke13+git@gmail.com"]
